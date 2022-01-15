@@ -36,7 +36,7 @@ function checkValue(expected: Record<string, unknown>, actual: Record<string, un
         (expectedValue as ExpectedValue).type
         && typeof (expectedValue as ExpectedValue).value !== 'undefined'
       ) {
-        expectValue(expectedValue as ExpectedValue, actualValue);
+        assertValue(expectedValue as ExpectedValue, actualValue);
         continue;
       }
 
@@ -71,13 +71,13 @@ ${JSON.stringify(actualValue, null, 4)}
   }
 }
 
-function zz(type: string, expected: unknown, actual: unknown): string {
+function UNEXPECTED_ERROR_MESSAGE(type: string, expected: unknown, actual: unknown): string {
   return `${type}:
 expected:
 ${JSON.stringify(expected, null, 4)}
 
 actual:
-${JSON.stringify(actual, (_key, value) => {
+${JSON.stringify(actual, (_key: string, value: unknown): unknown => {
     if (typeof value === 'bigint') {
       return String(value);
     }
@@ -87,7 +87,7 @@ ${JSON.stringify(actual, (_key, value) => {
 }
 
 // eslint-disable-next-line complexity
-function expectValue(expected: ExpectedValue, actual: unknown): void {
+function assertValue(expected: ExpectedValue, actual: unknown): void {
   if (expected.type === 'bool') {
     if (
       typeof actual === 'boolean'
@@ -95,7 +95,7 @@ function expectValue(expected: ExpectedValue, actual: unknown): void {
     ) {
       return;
     }
-    throw new Error(zz(expected.type, expected, actual));
+    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
   }
 
   if (expected.type === 'string') {
@@ -105,7 +105,7 @@ function expectValue(expected: ExpectedValue, actual: unknown): void {
     ) {
       return;
     }
-    throw new Error(zz(expected.type, expected, actual));
+    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
   }
 
   if (expected.type === 'integer') {
@@ -118,7 +118,7 @@ function expectValue(expected: ExpectedValue, actual: unknown): void {
         return;
       }
     }
-    throw new Error(zz(expected.type, expected, actual));
+    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
   }
 
   if (expected.type === 'float') {
@@ -148,34 +148,34 @@ function expectValue(expected: ExpectedValue, actual: unknown): void {
         }
     }
 
-    throw new Error(zz(expected.type, expected, actual));
+    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
   }
 
   if (expected.type === 'datetime') {
     if (dayjs(expected.value).isSame(actual as string)) {
       return;
     }
-    throw new Error(zz(expected.type, expected, actual));
+    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
   }
 
   if (expected.type === 'date-local') {
     if (dayjs(expected.value).isSame(actual as string)) {
       return;
     }
-    throw new Error(zz(expected.type, expected, actual));
+    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
   }
 
   if (expected.type === 'time-local') {
     if (String(new TOML.Time(expected.value)) === String(actual)) {
       return;
     }
-    throw new Error(zz(expected.type, expected, actual));
+    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
   }
 
   if (expected.type === 'datetime-local') {
     if (dayjs(expected.value).isSame(actual as string)) {
       return;
     }
-    throw new Error(zz(expected.type, expected, actual));
+    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
   }
 }
