@@ -19,9 +19,9 @@ describe('TOML.parse', () => {
           await checkResult(result, file.fullPath);
         } catch (e) {
           expect.fail(`
-  TOML: valid/${file.path}
-  Stack: ${(e as Error).stack}
-  `);
+TOML: valid/${file.path}
+Stack: ${(e as Error).stack}
+`);
         }
       }
     });
@@ -42,13 +42,13 @@ describe('TOML.parse', () => {
           TOML.parse(source);
         } catch (e) {
           err = e;
-          if ((e as Error).message === '1234') {
-            err = null;
-          }
         }
 
         if (!err) {
-          expect.fail(file.path);
+          expect.fail(`
+TOML: invalid/${file.path}
+It should be an invalid toml file, but the parser does not throw an error.
+`);
         }
       }
     });
