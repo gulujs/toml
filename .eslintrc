@@ -1,0 +1,17 @@
+{
+  "extends": "@lunjs/eslint-config/ts",
+  "rules": {
+    "no-control-regex": "off"
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*"],
+      "env": {
+        "mocha": true
+      },
+      "rules": {
+        "@typescript-eslint/no-unsafe-call": "off"
+      }
+    }
+  ]
+}
