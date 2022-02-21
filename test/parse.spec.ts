@@ -53,4 +53,43 @@ It should be an invalid toml file, but the parser does not throw an error.
       }
     });
   });
+
+  describe('table comment', () => {
+    it('basic', () => {
+      const source = `
+# hello world
+[foo]
+bar = 4
+`;
+      interface Result {
+        foo: {
+          bar: number;
+        };
+      }
+      const result = TOML.parse<Result>(source, { enableTableComment: true });
+      const comment = TOML.getTableComment(result.foo);
+      expect(comment).to.equal(' hello world');
+    });
+
+    it('multiple lines', () => {
+      const source = `
+a = 1
+# comment 1
+
+# comment 2
+# comment 3
+[foo.bar]
+b = 2
+`;
+      interface Result {
+        a: number;
+        foo: {
+          bar: { b: number; };
+        };
+      }
+      const result = TOML.parse<Result>(source, { enableTableComment: true });
+      const comment = TOML.getTableComment(result.foo.bar);
+      expect(comment).to.equal(' comment 2\n comment 3');
+    });
+  });
 });

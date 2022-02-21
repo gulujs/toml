@@ -15,10 +15,11 @@ import { SYNTAX_ERROR_MESSAGE } from './errors/index.js';
 
 export class Parser {
   convertor: Convertor;
-  obj = new TableObject();
+  obj: TableObject;
 
   constructor(public source: Source, options?: ParserOptions) {
     this.convertor = ConvertorFactory.create(options);
+    this.obj = new TableObject(options);
   }
 
   parse(): Record<string, unknown> {
@@ -48,6 +49,9 @@ export class Parser {
       if (matches[4]) {
         this.handleComment();
         continue;
+      }
+      if (this.obj.enableTableComment) {
+        this.obj.clearComments();
       }
     }
 
@@ -90,6 +94,13 @@ export class Parser {
   }
 
   handleComment(): void {
-    assertWhitespaceOrComment(this.source, 0);
+    const comment = assertWhitespaceOrComment(this.source, 0);
+    if (this.obj.enableTableComment) {
+      if (typeof comment === 'undefined') {
+        this.obj.clearComments();
+      } else {
+        this.obj.addComment(comment);
+      }
+    }
   }
 }

@@ -36,4 +36,8 @@ export interface ConvertorOptions {
   time?: TimeConvertor;
 }
 
-export type ParserOptions = ConvertorOptions;
+export interface TableObjectOptions {
+  enableTableComment?: boolean;
+}
+
+export type ParserOptions = ConvertorOptions & TableObjectOptions;
