@@ -15,7 +15,7 @@ import { KeyResult } from './interfaces.js';
 import { Source } from './source.js';
 
 
-export function assertWhitespaceOrComment(source: Source, offset: number): void {
+export function assertWhitespaceOrComment(source: Source, offset: number): string | undefined {
   RE_WHITESPACE_OR_COMMENT.lastIndex = offset;
   const matches = RE_WHITESPACE_OR_COMMENT.exec(source.line);
   if (!matches || matches.index !== offset) {
@@ -25,6 +25,7 @@ export function assertWhitespaceOrComment(source: Source, offset: number): void 
   if (matches[2]) {
     assertValidString(matches[2], source, offset + matches[1]!.length + 1);
   }
+  return matches[2];
 }
 
 export function assertValidString(str: string, source: Source, offset: number): void {
@@ -89,4 +90,13 @@ export function unescapeString(str: string, source: Source, offset: number): str
 
     throw new InvalidEscapeCodesError(INVALID_ESCAPE_CODES_MESSAGE(match, source, offset + matchOffset));
   });
+}
+
+const tableCommentMap = new WeakMap<object, string>();
+export function getTableComment(obj: object): string | undefined {
+  return tableCommentMap.get(obj);
+}
+
+export function setTableComment(obj: object, comment: string): void {
+  tableCommentMap.set(obj, comment);
 }

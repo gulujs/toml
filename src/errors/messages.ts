@@ -30,12 +30,12 @@ export const INVALID_ESCAPE_CODES_MESSAGE = (code: string, source: Source, offse
 };
 
 export const DUPLICATE_KEY_MESSAGE = (path: string[], tablePath: string[] | null, isTableArray: boolean): string => {
-  let message = `The key ${ObjectPath.stringifyKey(path)} is duplicated`;
+  let message = `The key ${ObjectPath.quoteStyle.keyPath.stringify(path)} is duplicated`;
   if (tablePath) {
     if (!isTableArray) {
-      message += ` in table [${ObjectPath.stringifyKey(tablePath)}]`;
+      message += ` in table [${ObjectPath.quoteStyle.keyPath.stringify(tablePath)}]`;
     } else {
-      message += ` in table array [[${ObjectPath.stringifyKey(tablePath)}]]`;
+      message += ` in table array [[${ObjectPath.quoteStyle.keyPath.stringify(tablePath)}]]`;
     }
   } else {
     message += ' in global';
@@ -44,43 +44,43 @@ export const DUPLICATE_KEY_MESSAGE = (path: string[], tablePath: string[] | null
 };
 
 export const DUPLICATE_TABLE_NAME_MESSAGE = (path: string[]): string => {
-  return `The name of table [${ObjectPath.stringifyKey(path)}] is duplicated`;
+  return `The name of table [${ObjectPath.quoteStyle.keyPath.stringify(path)}] is duplicated`;
 };
 
 export const TABLE_NAME_IS_DECLARED_AS_KEY_MESSAGE = (path: string[]): string => {
-  return `The name of table [${ObjectPath.stringifyKey(path)}] is already declared as key`;
+  return `The name of table [${ObjectPath.quoteStyle.keyPath.stringify(path)}] is already declared as key`;
 };
 
 export const TABLE_NAME_IS_DECLARED_AS_TABLE_ARRAY_MESSAGE = (path: string[]): string => {
-  return `The name of table [${ObjectPath.stringifyKey(path)}] is already declared as table array`;
+  return `The name of table [${ObjectPath.quoteStyle.keyPath.stringify(path)}] is already declared as table array`;
 };
 
 export const TABLE_ARRAY_NAME_IS_DECLARED_AS_OTHER_TYPE_MESSAGE = (path: string[]): string => {
-  return `The name of table array [[${ObjectPath.stringifyKey(path)}]] is already declared as other type`;
+  return `The name of table array [[${ObjectPath.quoteStyle.keyPath.stringify(path)}]] is already declared as other type`;
 };
 
 export const TABLE_ARRAY_NAME_IS_DECLARED_AS_KEY_MESSAGE = (path: string[]): string => {
-  return `The name of table array [[${ObjectPath.stringifyKey(path)}]] is already declared as key`;
+  return `The name of table array [[${ObjectPath.quoteStyle.keyPath.stringify(path)}]] is already declared as key`;
 };
 
 export const KEY_IS_NOT_ALLOWED_TO_ADD_TO_TABLE_MESSAGE = (path: string[], tablePath: string[], index: number): string => {
-  return `The key ${ObjectPath.stringifyKey(path)}`
-    + ` in table [${ObjectPath.stringifyKey(tablePath)}]`
-    + ` to add to [${ObjectPath.stringifyKey([...tablePath, ...path.slice(0, index + 1)])}]`
+  return `The key ${ObjectPath.quoteStyle.keyPath.stringify(path)}`
+    + ` in table [${ObjectPath.quoteStyle.keyPath.stringify(tablePath)}]`
+    + ` to add to [${ObjectPath.quoteStyle.keyPath.stringify([...tablePath, ...path.slice(0, index + 1)])}]`
     + ' after explicitly defining it above is not allowed';
 };
 
 export const FAILED_TO_ACCESS_AS_TABLE_MESSAGE = (path: string[], index: number, tablePath: string[] | null, isTableArray: boolean): string => {
-  let message = `When define key ${ObjectPath.stringifyKey(path)}`;
+  let message = `When define key ${ObjectPath.quoteStyle.keyPath.stringify(path)}`;
   if (tablePath) {
     if (!isTableArray) {
-      message += ` in table [${ObjectPath.stringifyKey(tablePath)}]`;
+      message += ` in table [${ObjectPath.quoteStyle.keyPath.stringify(tablePath)}]`;
     } else {
-      message += ` in table array [[${ObjectPath.stringifyKey(tablePath)}]]`;
+      message += ` in table array [[${ObjectPath.quoteStyle.keyPath.stringify(tablePath)}]]`;
     }
   } else {
     message += ' in global';
   }
 
-  return `${message}, that failed to access ${ObjectPath.stringifyKey(path.slice(0, index + 1))} as table`;
+  return `${message}, that failed to access ${ObjectPath.quoteStyle.keyPath.stringify(path.slice(0, index + 1))} as table`;
 };
