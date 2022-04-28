@@ -33,7 +33,7 @@ export class TableObject {
   private comments: string[] = [];
 
   constructor(options?: TableObjectOptions) {
-    this.enableTableComment = (options || {}).enableTableComment === true;
+    this.enableTableComment = options?.enableTableComment === true;
   }
 
   set(path: string[], value: unknown): void {
