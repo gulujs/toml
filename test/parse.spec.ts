@@ -12,7 +12,13 @@ import {
 describe('TOML.parse', () => {
   describe('toml-test', () => {
     it('valid', async () => {
-      for await (const file of readdirp(validTomlTestsDir, { fileFilter: '!*.json' })) {
+      const fileFilter = [
+        '!*.json',
+
+        // https://github.com/BurntSushi/toml-test/blob/e908fc3c48fe015d32c6a1cfbdc14e1d17706bf5/version.go#L13
+        '!escape-esc.toml'
+      ];
+      for await (const file of readdirp(validTomlTestsDir, { fileFilter })) {
         const source = await fs.readFile(file.fullPath, { encoding: 'utf-8' });
         try {
           const result = TOML.parse(source);
