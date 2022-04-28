@@ -107,7 +107,6 @@ export class TableObject {
 
     const child = node[key] as Record<string, unknown>[];
 
-
     if (!Array.isArray(child)) {
       throw new TableObjectError(TABLE_ARRAY_NAME_IS_DECLARED_AS_OTHER_TYPE_MESSAGE(path));
     }
