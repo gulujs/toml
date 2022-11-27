@@ -84,3 +84,7 @@ export const FAILED_TO_ACCESS_AS_TABLE_MESSAGE = (path: string[], index: number,
 
   return `${message}, that failed to access ${ObjectPath.quoteStyle.keyPath.stringify(path.slice(0, index + 1))} as table`;
 };
+
+export const CANNOT_EXTEND_TABLES_WITHIN_STATIC_ARRAYS_MESSAGE = (path: string[], index: number): string => {
+  return `Cannot extend table ${ObjectPath.quoteStyle.keyPath.stringify(path)} within static table ${ObjectPath.quoteStyle.keyPath.stringify(path.slice(0, index + 1))}`;
+};

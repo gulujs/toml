@@ -142,5 +142,10 @@ describe('Error message', () => {
       const source = await readTomlTestFile('invalid/key/dotted-redefine-table.toml');
       expect(() => TOML.parse(source)).to.throw('When define key a.b.c in global, that failed to access a.b as table');
     });
+
+    it('CANNOT_EXTEND_TABLES_WITHIN_STATIC_ARRAYS_MESSAGE', async () => {
+      const source = await readTomlTestFile('invalid/array/extending-table.toml');
+      expect(() => TOML.parse(source)).to.throw('Cannot extend table a.c within static table a');
+    });
   });
 });

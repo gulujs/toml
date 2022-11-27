@@ -7,7 +7,8 @@ import {
   TABLE_NAME_IS_DECLARED_AS_TABLE_ARRAY_MESSAGE,
   KEY_IS_NOT_ALLOWED_TO_ADD_TO_TABLE_MESSAGE,
   FAILED_TO_ACCESS_AS_TABLE_MESSAGE,
-  TableObjectError
+  TableObjectError,
+  CANNOT_EXTEND_TABLES_WITHIN_STATIC_ARRAYS_MESSAGE
 } from './errors/index.js';
 import { TableObjectOptions } from './interfaces.js';
 import { setTableComment } from './utils.js';
@@ -147,6 +148,9 @@ export class TableObject {
       if (this.objectSet.has(child)) {
         node = child;
       } else if (Array.isArray(child)) {
+        if (from === 'switchTable' && !this.arrayTableSet.has(child)) {
+          throw new TableObjectError(CANNOT_EXTEND_TABLES_WITHIN_STATIC_ARRAYS_MESSAGE(path, i));
+        }
         node = child[child.length - 1] as Record<string, unknown>;
       } else {
         throw new TableObjectError(FAILED_TO_ACCESS_AS_TABLE_MESSAGE(path, i, this.currentTablePath, this.isCurrentTableArray));
