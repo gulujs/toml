@@ -1,5 +1,5 @@
 {
-  "extends": "@lunjs/eslint-config/ts",
+  "extends": "@gulujs/eslint-config/ts",
   "rules": {
     "no-control-regex": "off"
   },

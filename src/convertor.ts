@@ -17,7 +17,7 @@ function convertBigIntEnabled(
   radix: 10 | 16 | 8 | 2,
   sign: Sign,
   str: string
-): BigInt {
+): bigint {
   if (radix === 10) {
     return BigInt(`${sign}${str}`);
   } else {

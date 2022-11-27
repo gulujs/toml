@@ -72,6 +72,7 @@ bar = 4
           bar: number;
         };
       }
+
       const result = TOML.parse<Result>(source, { enableTableComment: true });
       const comment = TOML.getTableComment(result.foo);
       expect(comment).to.equal(' hello world');
@@ -93,6 +94,7 @@ b = 2
           bar: { b: number; };
         };
       }
+
       const result = TOML.parse<Result>(source, { enableTableComment: true });
       const comment = TOML.getTableComment(result.foo.bar);
       expect(comment).to.equal(' comment 2\n comment 3');

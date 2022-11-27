@@ -25,7 +25,7 @@ export function getInteger(source: Source, offset: number, convertor: Convertor)
     return null;
   }
 
-  let value!: number | BigInt | unknown;
+  let value!: number | bigint | unknown;
   if (matches[7]) {
     if (matches[6]) {
       throw new SyntaxError(SYNTAX_ERROR_MESSAGE(source, offset));
