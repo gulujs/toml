@@ -1,4 +1,4 @@
-import { ObjectPath } from '@lunjs/object-path';
+import { ObjectPath } from '@gulujs/object-path';
 import { Source } from '../source.js';
 
 export const PRETTY_ERROR_MESSAGE = (message: string, source: Source, offset: number): string => {

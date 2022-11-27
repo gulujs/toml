@@ -1,5 +1,5 @@
 import * as fs from 'fs/promises';
-import { readdirp } from '@lunjs/readdirp';
+import { readdirp } from '@gulujs/readdirp';
 import { expect } from 'chai';
 import * as TOML from '../src/index.js';
 import {
