@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@gulujs/object-path':
-    specifier: ^0.5.0
-    version: 0.5.0
+    specifier: ^0.6.0
+    version: 0.6.0
 
 devDependencies:
   '@gulujs/eslint-config':
@@ -316,8 +316,8 @@ packages:
       eslint: 8.53.0
     dev: true
 
-  /@gulujs/object-path@0.5.0:
-    resolution: {integrity: sha512-vgFO8UQLyNzwnUE9BLmuv+ZkfvtaIEdAkrSy+W1vvRXCcXs7MgIBuzZWRJE7t+8/p2w3aOXaCSFVnOul+L5xGw==}
+  /@gulujs/object-path@0.6.0:
+    resolution: {integrity: sha512-58jQ9elFDi7IXqAF0Gcx5Eq6dYDaRkH9O6ORLhXvyJXde2PhxRedDGDzHW04XlyddQ28Jj8ktP1EqHI4Tzt/JQ==}
     engines: {node: '>=14.0.0'}
     dev: false
 

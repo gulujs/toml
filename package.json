@@ -1,6 +1,6 @@
 {
   "name": "@gulujs/toml",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "TOML parser and serializer",
   "type": "module",
   "main": "dist/index.js",
@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/gulujs/toml#readme",
   "dependencies": {
-    "@gulujs/object-path": "^0.5.0"
+    "@gulujs/object-path": "^0.6.0"
   },
   "devDependencies": {
     "@gulujs/eslint-config": "^0.6.2",
