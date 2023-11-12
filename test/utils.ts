@@ -1,13 +1,22 @@
 import * as Path from 'path';
 import * as fs from 'fs/promises';
 import { fileURLToPath } from 'url';
-import dayjs from 'dayjs';
 import * as TOML from '../src/index.js';
 
 
 const __dirname = Path.dirname(fileURLToPath(import.meta.url));
-export const validTomlTestsDir = Path.join(__dirname, './toml-test/tests/valid');
-export const invalidTomlTestsDir = Path.join(__dirname, './toml-test/tests/invalid');
+const tomlTestsBaseDir = Path.join(__dirname, './toml-test/tests/');
+const supportedTestFileListFilePath = Path.join(tomlTestsBaseDir, `files-toml-${TOML.version}`);
+
+export const validTomlTestsDir = Path.join(tomlTestsBaseDir, 'valid/');
+export const invalidTomlTestsDir = Path.join(tomlTestsBaseDir, 'invalid/');
+
+export async function createIncludesFileFilter(): Promise<string[]> {
+  const supportedTestFileListTxt = await fs.readFile(supportedTestFileListFilePath, { encoding: 'utf-8' });
+  return supportedTestFileListTxt.split('\n')
+    .filter(file => file.endsWith('toml'))
+    .map(file => `**/${file}`);
+}
 
 export async function readTomlTestFile(file: string): Promise<string> {
   return fs.readFile(Path.join(__dirname, 'toml-test/tests', file), { encoding: 'utf-8' });
@@ -124,12 +133,15 @@ function assertValue(expected: ExpectedValue, actual: unknown): void {
   if (expected.type === 'float') {
     switch (expected.value) {
       case 'inf':
+      case 'Inf':
       case '+inf':
+      case '+Inf':
         if (actual === Number.POSITIVE_INFINITY) {
           return;
         }
         break;
       case '-inf':
+      case '-Inf':
         if (actual === Number.NEGATIVE_INFINITY) {
           return;
         }
@@ -152,28 +164,28 @@ function assertValue(expected: ExpectedValue, actual: unknown): void {
   }
 
   if (expected.type === 'datetime') {
-    if (dayjs(expected.value).isSame(actual as string)) {
-      return;
-    }
-    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
-  }
-
-  if (expected.type === 'date-local') {
-    if (dayjs(expected.value).isSame(actual as string)) {
-      return;
-    }
-    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
-  }
-
-  if (expected.type === 'time-local') {
-    if (String(new TOML.Time(expected.value)) === String(actual)) {
+    if (TOML.TomlDate.ofOffsetDateTime(expected.value).toString() === (actual as TOML.TomlDate).toString()) {
       return;
     }
     throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
   }
 
   if (expected.type === 'datetime-local') {
-    if (dayjs(expected.value).isSame(actual as string)) {
+    if (TOML.TomlDate.ofLocalDateTime(expected.value).toString() === (actual as TOML.TomlDate).toString()) {
+      return;
+    }
+    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
+  }
+
+  if (expected.type === 'date-local') {
+    if (TOML.TomlDate.ofLocalDate(expected.value).toString() === (actual as TOML.TomlDate).toString()) {
+      return;
+    }
+    throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
+  }
+
+  if (expected.type === 'time-local') {
+    if (TOML.TomlDate.ofLocalTime(expected.value).toString() === (actual as TOML.TomlDate).toString()) {
       return;
     }
     throw new Error(UNEXPECTED_ERROR_MESSAGE(expected.type, expected, actual));
